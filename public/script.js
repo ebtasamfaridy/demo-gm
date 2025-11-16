@@ -30,7 +30,7 @@ function showGameSetup() {
     gameArea.classList.add('hidden');
 }
 
-function updateGameBoard(board) {
+function updateGameBoard(board, gameState) {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell, index) => {
         const value = board[index];
@@ -45,7 +45,16 @@ function updateGameBoard(board) {
         }
         
         cell.classList.remove('disabled');
-        if (value !== null || !isGameReady) {
+        
+        // Disable cell if:
+        // 1. Cell already has a value
+        // 2. Game is not ready (waiting for second player)
+        // 3. Game is over
+        // 4. It's not the current player's turn
+        if (value !== null || 
+            !isGameReady || 
+            (gameState && gameState.gameOver) ||
+            (gameState && gameState.currentPlayer !== playerIndex && isGameReady)) {
             cell.classList.add('disabled');
         }
     });
@@ -115,8 +124,6 @@ socket.on('playerAssigned', (data) => {
 });
 
 socket.on('gameState', (gameState) => {
-    updateGameBoard(gameState.board);
-    
     if (gameState.players.length === 2) {
         isGameReady = true;
         updateGameStatus(gameState);
@@ -124,10 +131,9 @@ socket.on('gameState', (gameState) => {
         gameStatus.textContent = 'Waiting for another player to join...';
         gameStatus.className = 'game-status';
         isGameReady = false;
-        
-        const cells = document.querySelectorAll('.cell');
-        cells.forEach(cell => cell.classList.add('disabled'));
     }
+    
+    updateGameBoard(gameState.board, gameState);
 });
 
 socket.on('gameReady', () => {
