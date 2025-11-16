@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplayer Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Multiplayer Tic Tac Toe</h1>
+        
+        <div id="gameSetup" class="section">
+            <h2>Join or Create Game</h2>
+            <div class="input-group">
+                <input type="text" id="gameIdInput" placeholder="Enter Game ID (or leave empty for random)">
+                <button id="joinGameBtn">Join Game</button>
+            </div>
+            <p>Share your Game ID with a friend to play together!</p>
+        </div>
+
+        <div id="gameArea" class="section hidden">
+            <div class="game-info">
+                <div id="gameId" class="game-id"></div>
+                <div id="playerInfo" class="player-info"></div>
+                <div id="gameStatus" class="game-status">Waiting for players...</div>
+            </div>
+
+            <div id="gameBoard" class="board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <div class="game-controls">
+                <button id="resetBtn" class="hidden">Play Again</button>
+                <button id="newGameBtn">New Game</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
